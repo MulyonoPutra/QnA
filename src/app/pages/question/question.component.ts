@@ -1,9 +1,13 @@
 import { Subscription } from 'rxjs';
 import { QuestionAnswer } from 'src/@core/interface/questions';
 import { QuestionsService } from 'src/@core/service/questions.service';
+import { AppState } from 'src/@core/state-management/app.state';
 
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { Store } from '@ngrx/store';
+
+import * as QuestionActions from '../../../@core/state-management/actions/question.action';
 
 @Component({
   selector: 'app-question',
@@ -12,13 +16,16 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
   encapsulation: ViewEncapsulation.None,
 })
 export class QuestionComponent implements OnInit, OnDestroy {
-  questionForms!: FormGroup;
-  questionsArray: QuestionAnswer[] = [];
-  public subscription: Subscription[] = [];
+
+  protected questionForms!: FormGroup;
+  protected questionsArray: QuestionAnswer[] = [];
+  protected subscription: Subscription[] = [];
+  protected isNext = true;
 
   constructor(
     private fb: FormBuilder,
-    private questionService: QuestionsService
+    private questionService: QuestionsService,
+    private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {
@@ -32,8 +39,8 @@ export class QuestionComponent implements OnInit, OnDestroy {
         next: (response) => {
           this.questionsArray = response;
           const control = <FormArray>this.questionForms.get('questions');
-          this.questionsArray.forEach((x: QuestionAnswer) => {
-            control.push(this.patchValues(x.question, x.answer));
+          this.questionsArray.forEach((x: Partial<QuestionAnswer>) => {
+            control.push(this.patchValues(x.question!, x.answer!));
           });
         },
         error: (error) => {
@@ -49,8 +56,12 @@ export class QuestionComponent implements OnInit, OnDestroy {
     });
   }
 
-  submit(value: any): void {
-    console.log(value);
+  submit(value: string): void {
+    this.store.dispatch(
+      new QuestionActions.AddAnswer({
+        answer: value,
+      })
+    );
   }
 
   patchValues(question: string, answer: string) {
@@ -64,11 +75,20 @@ export class QuestionComponent implements OnInit, OnDestroy {
     return (this.questionForms.get('questions') as FormArray).controls;
   }
 
+  nextPage() {
+    this.isNext = false;
+  }
+
+  previousPage() {
+    window.scroll(0,0);
+    this.isNext = true;
+  }
+
   ngOnDestroy(): void {
     if (this.subscription && this.subscription.length > 0) {
-        this.subscription.forEach((subs) => {
-            subs.unsubscribe();
-        });
+      this.subscription.forEach((subs) => {
+        subs.unsubscribe();
+      });
     }
-}
+  }
 }

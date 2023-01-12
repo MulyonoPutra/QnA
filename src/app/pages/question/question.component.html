@@ -23,12 +23,9 @@
 <div class="container mx-auto py-4 px-[400px]">
   <div class="flex flex-col space-y-4">
     <div>
-      <form
-        [formGroup]="questionForms"
-        (ngSubmit)="submit(questionForms.value)"
-      >
+      <form [formGroup]="questionForms" (ngSubmit)="submit(questionForms.value)">
         <hr />
-        <div>
+        <div *ngIf="isNext">
           <div formArrayName="questions">
             <div *ngFor="let child of getControls() | slice:0:5; let i = index">
               <div class="mt-2">
@@ -51,7 +48,40 @@
             </div>
           </div>
         </div>
-        <button type="submit" class="btn">Submit</button>
+        <div *ngIf="!isNext">
+          <div formArrayName="questions">
+            <div *ngFor="let child of getControls() | slice:6:10; let i = index">
+              <div class="mt-2">
+                <mat-card>
+                  <mat-card-content>
+                    <div class="flex flex-col space-y-4" [formGroupName]="i">
+                      <div>
+                        <span>{{ child.value.question }} </span>
+                      </div>
+                      <div>
+                        <mat-form-field appearance="fill" class="w-full">
+                          <mat-label>Answer</mat-label>
+                          <input matInput formControlName="answer" />
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="relative mb-[100px]">
+          <div class="absolute right-0" *ngIf="isNext">
+            <button type="button" class="btn" (click)="nextPage()">Next</button>
+          </div>
+          <div class="absolute left-0">
+            <button type="button" class="btn" (click)="previousPage()">Previous</button>
+          </div>
+          <div class="absolute right-0" *ngIf="!isNext">
+            <button type="submit" class="btn">Submit</button>
+          </div>
+        </div>
       </form>
     </div>
   </div>

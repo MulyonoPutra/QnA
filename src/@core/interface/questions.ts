@@ -5,7 +5,7 @@ export interface Questions {
 }
 
 export interface QuestionAnswer {
-  question: string
+  question?: string
   answer: string
-  correctAnswer: string
+  correctAnswer?: string
 }
