@@ -1,10 +1,12 @@
 import { Subscription } from 'rxjs';
+import { DialogComponent } from 'src/@components/dialog/dialog.component';
 import { QuestionAnswer } from 'src/@core/interface/questions';
 import { QuestionsService } from 'src/@core/service/questions.service';
 import { AppState } from 'src/@core/state-management/app.state';
 
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 
 import * as QuestionActions from '../../../@core/state-management/actions/question.action';
@@ -16,17 +18,18 @@ import * as QuestionActions from '../../../@core/state-management/actions/questi
   encapsulation: ViewEncapsulation.None,
 })
 export class QuestionComponent implements OnInit, OnDestroy {
-
   protected questionForms!: FormGroup;
   protected questionsArray: QuestionAnswer[] = [];
+  protected questionsDialogData: QuestionAnswer[] = [];
   protected subscription: Subscription[] = [];
-  protected isNext = true;
 
   constructor(
+    public dialog: MatDialog,
     private fb: FormBuilder,
     private questionService: QuestionsService,
     private store: Store<AppState>
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.findAllQuestions();
@@ -40,7 +43,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
           this.questionsArray = response;
           const control = <FormArray>this.questionForms.get('questions');
           this.questionsArray.forEach((x: Partial<QuestionAnswer>) => {
-            control.push(this.patchValues(x.question!, x.answer!));
+            control.push(this.patchValues(x.question!, x.answer!, x.correctAnswer!));
           });
         },
         error: (error) => {
@@ -62,12 +65,15 @@ export class QuestionComponent implements OnInit, OnDestroy {
         answer: value,
       })
     );
+
+    this.openDialog();
   }
 
-  patchValues(question: string, answer: string) {
+  patchValues(question: string, answer: string, correctAnswer: string) {
     return this.fb.group({
       question: [question],
       answer: [answer],
+      correctAnswer: [correctAnswer]
     });
   }
 
@@ -75,13 +81,12 @@ export class QuestionComponent implements OnInit, OnDestroy {
     return (this.questionForms.get('questions') as FormArray).controls;
   }
 
-  nextPage() {
-    this.isNext = false;
-  }
+  openDialog() {
+    const dialogRef = this.dialog.open(DialogComponent);
 
-  previousPage() {
-    window.scroll(0,0);
-    this.isNext = true;
+    dialogRef.afterClosed().subscribe(() => {
+      this.questionForms.reset();
+    });
   }
 
   ngOnDestroy(): void {

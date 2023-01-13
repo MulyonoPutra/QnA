@@ -15,7 +15,7 @@ import { AppComponent } from './app.component';
 @NgModule({
   declarations: [AppComponent],
   imports: [
-BrowserModule,
+    BrowserModule,
     AppRoutingModule,
     ComponentsModule,
     BrowserAnimationsModule,
@@ -23,7 +23,7 @@ BrowserModule,
     ReactiveFormsModule,
     FormsModule,
     StoreModule.forRoot({
-      questionStore: questionReducer
+      questionStore: questionReducer,
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
@@ -33,5 +33,4 @@ BrowserModule,
   bootstrap: [AppComponent],
   exports: [],
 })
-
 export class AppModule {}

@@ -1,0 +1,25 @@
+.mat-mdc-form-field + .mat-mdc-form-field {
+  margin-left: 8px;
+}
+
+.btn {
+  @apply
+        mt-3
+        bg-white
+        border-blue-700
+        text-blue-700
+        hover:bg-blue-800
+        hover:text-white
+        border
+        focus:ring-4
+        focus:outline-none
+        focus:ring-blue-300
+        font-medium
+        rounded
+        text-sm
+        px-5
+        py-2.5
+        text-center
+        mr-3
+        md:mr-0
+}
