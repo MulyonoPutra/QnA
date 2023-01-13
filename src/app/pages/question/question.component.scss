@@ -18,3 +18,7 @@
         dark:hover:bg-blue-700
         dark:focus:ring-blue-800;
 }
+
+.title {
+  @apply tracking-normal leading-normal font-semibold text-gray-600;
+}

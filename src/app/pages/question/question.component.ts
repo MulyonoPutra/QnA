@@ -5,7 +5,7 @@ import { QuestionsService } from 'src/@core/service/questions.service';
 import { AppState } from 'src/@core/state-management/app.state';
 
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 
@@ -72,7 +72,7 @@ export class QuestionComponent implements OnInit, OnDestroy {
   patchValues(question: string, answer: string, correctAnswer: string) {
     return this.fb.group({
       question: [question],
-      answer: [answer],
+      answer: [answer, [Validators.required, Validators.minLength(5)]],
       correctAnswer: [correctAnswer]
     });
   }

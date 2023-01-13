@@ -1,17 +1,11 @@
-<div *ngFor="let d of questionsData; let i = index" class="mt-4">
-  <mat-accordion>
-    <mat-expansion-panel (opened)="panelOpenState = true"
-                         (closed)="panelOpenState = false">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-         Question {{i + 1}}
-        </mat-panel-title>
-        <mat-panel-description>
-          {{d.question}}
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <p>{{d.answer}}</p>
-    </mat-expansion-panel>
-  </mat-accordion>
-
+<div class="container mx-auto py-4 px-[400px]">
+  <div class="text-center bg-white border rounded-lg shadow-md sm:p-8">
+    <h5 class="mb-2 text-3xl font-bold text-gray-900 bg-white">
+      Welcome to Angular QnA
+    </h5>
+    <p class="mb-5 text-base text-gray-500 sm:text-lg bg-white">
+      This quiz will contains total 10 questions.
+    </p>
+    <button type="button" class="btn" (click)="navigate()">Get started</button>
+  </div>
 </div>
