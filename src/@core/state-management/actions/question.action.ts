@@ -6,15 +6,15 @@ export const ADD_ANSWER = 'Add Answer';
 export const GET_QUESTIONS = 'GET Questions';
 
 export class AddAnswer implements Action {
-    readonly type = ADD_ANSWER;
+	readonly type = ADD_ANSWER;
 
-    constructor(public payload: QuestionAnswer) {}
+	constructor(public payload: QuestionAnswer) {}
 }
 
 export class GetQuestions implements Action {
-  readonly type = GET_QUESTIONS;
+	readonly type = GET_QUESTIONS;
 
-  constructor(public payload: QuestionAnswer) {}
+	constructor(public payload: QuestionAnswer) {}
 }
 
-export type Actions = AddAnswer | GetQuestions
+export type Actions = AddAnswer | GetQuestions;

@@ -8,13 +8,13 @@ import { QuestionRoutingModule } from './question-routing.module';
 import { QuestionComponent } from './question.component';
 
 @NgModule({
-  declarations: [QuestionComponent],
-  imports: [
-    CommonModule,
-    QuestionRoutingModule,
-    MaterialModule,
-    FormsModule,
-    ReactiveFormsModule,
-  ],
+	declarations: [QuestionComponent],
+	imports: [
+		CommonModule,
+		QuestionRoutingModule,
+		MaterialModule,
+		FormsModule,
+		ReactiveFormsModule,
+	],
 })
 export class QuestionModule {}

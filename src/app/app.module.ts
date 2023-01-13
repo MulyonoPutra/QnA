@@ -13,24 +13,24 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ComponentsModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    FormsModule,
-    StoreModule.forRoot({
-      questionStore: questionReducer,
-    }),
-    StoreDevtoolsModule.instrument({
-      maxAge: 25, // Retains last 25 states
-    }),
-  ],
-  providers: [],
-  bootstrap: [AppComponent],
-  exports: [],
+	declarations: [AppComponent],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		ComponentsModule,
+		BrowserAnimationsModule,
+		HttpClientModule,
+		ReactiveFormsModule,
+		FormsModule,
+		StoreModule.forRoot({
+			questionStore: questionReducer,
+		}),
+		StoreDevtoolsModule.instrument({
+			maxAge: 25,
+		}),
+	],
+	providers: [],
+	bootstrap: [AppComponent],
+	exports: [],
 })
 export class AppModule {}

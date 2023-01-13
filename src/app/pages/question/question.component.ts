@@ -12,88 +12,97 @@ import { Store } from '@ngrx/store';
 import * as QuestionActions from '../../../@core/state-management/actions/question.action';
 
 @Component({
-  selector: 'app-question',
-  templateUrl: './question.component.html',
-  styleUrls: ['./question.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+	selector: 'app-question',
+	templateUrl: './question.component.html',
+	styleUrls: ['./question.component.scss'],
+	encapsulation: ViewEncapsulation.None,
 })
 export class QuestionComponent implements OnInit, OnDestroy {
-  protected questionForms!: FormGroup;
-  protected questionsArray: QuestionAnswer[] = [];
-  protected questionsDialogData: QuestionAnswer[] = [];
-  protected subscription: Subscription[] = [];
+	protected questionForms!: FormGroup;
+	protected questionsArray: QuestionAnswer[] = [];
+	protected questionsDialogData: QuestionAnswer[] = [];
+	protected subscription: Subscription[] = [];
 
-  constructor(
-    public dialog: MatDialog,
-    private fb: FormBuilder,
-    private questionService: QuestionsService,
-    private store: Store<AppState>
-  ) {
-  }
+	constructor(
+		public dialog: MatDialog,
+		private fb: FormBuilder,
+		private questionService: QuestionsService,
+		private store: Store<AppState>
+	) {}
 
-  ngOnInit(): void {
-    this.findAllQuestions();
-    this.initForms();
-  }
+	ngOnInit(): void {
+		this.findAllQuestions();
+		this.initForms();
+	}
 
-  findAllQuestions(): void {
-    this.subscription.push(
-      this.questionService.findAllQuestions().subscribe({
-        next: (response) => {
-          this.questionsArray = response;
-          const control = <FormArray>this.questionForms.get('questions');
-          this.questionsArray.forEach((x: Partial<QuestionAnswer>) => {
-            control.push(this.patchValues(x.question!, x.answer!, x.correctAnswer!));
-          });
-        },
-        error: (error) => {
-          console.log(error);
-        },
-      })
-    );
-  }
+	findAllQuestions(): void {
+		this.subscription.push(
+			this.questionService.findAllQuestions().subscribe({
+				next: (response) => {
+					this.questionsArray = response;
+					const control = <FormArray>(
+						this.questionForms.get('questions')
+					);
+					this.questionsArray.forEach(
+						(x: Partial<QuestionAnswer>) => {
+							control.push(
+								this.patchValues(
+									x.question!,
+									x.answer!,
+									x.correctAnswer!
+								)
+							);
+						}
+					);
+				},
+				error: (error) => {
+					console.log(error);
+				},
+			})
+		);
+	}
 
-  initForms(): void {
-    this.questionForms = this.fb.group({
-      questions: this.fb.array([]),
-    });
-  }
+	initForms(): void {
+		this.questionForms = this.fb.group({
+			questions: this.fb.array([]),
+		});
+	}
 
-  submit(value: string): void {
-    this.store.dispatch(
-      new QuestionActions.AddAnswer({
-        answer: value,
-      })
-    );
+	submit(value: string): void {
+		this.store.dispatch(
+			new QuestionActions.AddAnswer({
+				answer: value,
+			})
+		);
 
-    this.openDialog();
-  }
+		this.openDialog();
+	}
 
-  patchValues(question: string, answer: string, correctAnswer: string) {
-    return this.fb.group({
-      question: [question],
-      answer: [answer, [Validators.required, Validators.minLength(5)]],
-      correctAnswer: [correctAnswer]
-    });
-  }
+	patchValues(question: string, answer: string, correctAnswer: string) {
+		return this.fb.group({
+			question: [question],
+			answer: [answer, [Validators.required, Validators.minLength(5)]],
+			correctAnswer: [correctAnswer],
+		});
+	}
 
-  getControls() {
-    return (this.questionForms.get('questions') as FormArray).controls;
-  }
+	getControls() {
+		return (this.questionForms.get('questions') as FormArray).controls;
+	}
 
-  openDialog() {
-    const dialogRef = this.dialog.open(DialogComponent);
+	openDialog() {
+		const dialogRef = this.dialog.open(DialogComponent);
 
-    dialogRef.afterClosed().subscribe(() => {
-      this.questionForms.reset();
-    });
-  }
+		dialogRef.afterClosed().subscribe(() => {
+			this.questionForms.reset();
+		});
+	}
 
-  ngOnDestroy(): void {
-    if (this.subscription && this.subscription.length > 0) {
-      this.subscription.forEach((subs) => {
-        subs.unsubscribe();
-      });
-    }
-  }
+	ngOnDestroy(): void {
+		if (this.subscription && this.subscription.length > 0) {
+			this.subscription.forEach((subs) => {
+				subs.unsubscribe();
+			});
+		}
+	}
 }

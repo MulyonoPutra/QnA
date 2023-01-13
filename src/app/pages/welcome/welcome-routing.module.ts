@@ -5,7 +5,7 @@ import { WelcomeComponent } from './welcome.component';
 const routes: Routes = [{ path: '', component: WelcomeComponent }];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule],
 })
-export class WelcomeRoutingModule { }
+export class WelcomeRoutingModule {}

@@ -7,10 +7,8 @@ import { DialogComponent } from './dialog/dialog.component';
 import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
-  declarations: [NavbarComponent, DialogComponent],
-  imports: [
-CommonModule, MaterialModule, RouterModule
-  ],
-  exports: [NavbarComponent, DialogComponent]
+	declarations: [NavbarComponent, DialogComponent],
+	imports: [CommonModule, MaterialModule, RouterModule],
+	exports: [NavbarComponent, DialogComponent],
 })
-export class ComponentsModule { }
+export class ComponentsModule {}

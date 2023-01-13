@@ -5,31 +5,31 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 
 export interface DialogData {
-  name: string;
+	name: string;
 }
 
 @Component({
-  selector: 'app-dialog',
-  templateUrl: './dialog.component.html',
-  styleUrls: ['./dialog.component.css'],
+	selector: 'app-dialog',
+	templateUrl: './dialog.component.html',
+	styleUrls: ['./dialog.component.css'],
 })
 export class DialogComponent implements OnInit {
-  panelOpenState = false;
-  data: any;
-  questions: any;
+	panelOpenState = false;
+	data: any;
+	questions: any;
 
-  constructor(
-    public dialogRef: MatDialogRef<DialogComponent>,
-    private store: Store<AppState>
-  ) {}
+	constructor(
+		public dialogRef: MatDialogRef<DialogComponent>,
+		private store: Store<AppState>
+	) {}
 
-  ngOnInit() {
-    this.data = this.store.select('questionStore');
-    this.questions =
-      this.data.actionsObserver._value.payload.answer.questions;
-  }
+	ngOnInit() {
+		this.data = this.store.select('questionStore');
+		this.questions =
+			this.data.actionsObserver._value.payload.answer.questions;
+	}
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
+	onNoClick(): void {
+		this.dialogRef.close();
+	}
 }

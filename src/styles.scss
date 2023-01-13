@@ -5,15 +5,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 * {
-  font-family: 'Poppins', sans-serif;
+	font-family: 'Poppins', sans-serif;
 }
 
-
-html, body {
-  height: 100%;
-  @apply bg-slate-200;
+html,
+body {
+	height: 100%;
+	@apply bg-slate-200;
 }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+	margin: 0;
+	font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
 
 ::-webkit-scrollbar {
 	width: 9px;
