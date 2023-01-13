@@ -1,12 +1,8 @@
-import { AppState } from 'src/@core/state-management/app.state';
+import { AppState } from '../../@core/state-management/app.state';
 
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-
-export interface DialogData {
-	name: string;
-}
 
 @Component({
 	selector: 'app-dialog',
